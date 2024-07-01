@@ -1,29 +1,45 @@
-// Define the model for customer current electricity tariff
-model customerCurrentElectricityTarriff {
-  id                              Int     @id @default(autoincrement())
-  timeOfUse                       Boolean
-  unitRate                        Float   
-  estimatedEnergyAnnualUsage      Int     
-  annualStandingCharge            Float   
-  estimatedEnergyAnnualEnergyCost Float   
+model Business {
+  id               Int        @id @default(autoincrement())
+  name             String?
+  postcode         String?
+  electricityTariffId Int? 
+  gasTariffId      Int?
+  electricityLoadCurveId Int?
+  gasLoadCurveId   Int?
+
+  electricityTariff Tariff?   @relation(fields: [electricityTariffId], references: [id])
+  gasTariff         Tariff?   @relation(fields: [gasTariffId], references: [id])
+  electricityLoadCurve LoadCurve? @relation(fields: [electricityLoadCurveId], references: [id])
+  gasLoadCurve      LoadCurve? @relation(fields: [gasLoadCurveId], references: [id])
 }
 
-// Define the model for customer current gas tariff
-model customerCurrentgasTarriff {
-  id                              Int     @id @default(autoincrement())
-  unitRate                        Float   
-  estimatedEnergyAnnualUsage      Int     
-  annualStandingCharge            Float   
-  estimatedEnergyAnnualEnergyCost Float   
-}
-
-// Define the model for potential tariff
-model potentialTarriff {
-  id                              Int     @id @default(autoincrement())
+model Tariff {
+  id                              Int      @id @default(autoincrement())
   utility                         String  
   timeOfUse                       Boolean
-  unitRate                        Float   
-  estimatedFutureEnergyAnnualUsage Int     
+  timeOfUseId                     Int?     
+  avgUnitRate                     Float?   
+  estimatedFutureEnergyAnnualUsage Int?     
   annualStandingCharge            Float   
   estimatedEnergyAnnualEnergyCost Float   
+  timeOfUseTariff                 TimeOfUseTariff? @relation(fields: [timeOfUseId], references: [id])
+
+  businessesElectricity           Business[] @relation("electricityTariff")
+  businessesGas                   Business[] @relation("gasTariff")
+}
+
+model TimeOfUseTariff {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
+  unitPrice Float
+  tariffs   Tariff[]
+}
+
+model LoadCurve {
+  id                  Int      @id @default(autoincrement())
+  timestamp           DateTime
+  unitPrice           Float
+  tariffs             Tariff[]
+  businessesElectricity Business[] @relation("electricityLoadCurve")
+  businessesGas       Business[] @relation("gasLoadCurve")
 }
