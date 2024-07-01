@@ -82,12 +82,12 @@ def generate_consumption_data(device_id, mpxn, start_date, end_date, measurement
 
 def main():
     business_id = 1
-    mpxn = '123456789'
+    mpxn = '9876543210'
     today = datetime.now()
     start_date = datetime(2023, 7, 1)
     end_date = today
     measurement_type = 'READ'
-    utility = 'electricity'
+    utility = 'gas'
 
     consumption_data = generate_consumption_data(business_id, mpxn, start_date, end_date, measurement_type, utility)
 
