@@ -10,8 +10,22 @@ import os
 logger = logging.getLogger(__name__)
 
 
+def load_carbon_intensity():
+    df = pd.read_csv("../octopus_consumption.csv", parse_dates=True)[["Carbon Intensity (gCO2/kWh)"]]
+    df['timestamp'] = df.index.to_series().dt.time.astype(str)
+    carbon_intensity = (
+        df
+        .groupby('timestamp')
+        .mean()
+        .rename(columns={"Carbon Intensity (gCO2/kWh)": "carbon_intensity"})
+        .reset_index()
+    )
+    return carbon_intensity
+
+
 def half_hour_running_cost(usage:pd.DataFrame, tariffs:pd.DataFrame, economy:str='Economy 5'):
     usage['timestamp_day'] = pd.to_datetime(usage['timestamp']).dt.time.astype(str)
+    carbon_intensity = load_carbon_intensity()
     usage = (
         usage
         .merge(
@@ -21,8 +35,15 @@ def half_hour_running_cost(usage:pd.DataFrame, tariffs:pd.DataFrame, economy:str
             on='timestamp_day',
             how='left',
         )
+        .merge(
+            carbon_intensity
+            .rename(columns={'timestamp': 'timestamp_day'}),
+            on='timestamp_day',
+            how='left',
+        )
     )
     usage['cost'] = usage['primaryValue'] * usage['unit_price']
+    usage['carbon_emission'] = usage['primaryValue'] * usage['carbon_intensity']
     return usage
 
 
@@ -44,7 +65,11 @@ def projected_yearly_cost_range(appliance:pd.Series, half_hour_cost:pd.DataFrame
     lifetime_cost = upfront_cost + running_cost + maintenance_cost
     yearly_cost = lifetime_cost / lifespan[::-1]
 
-    return yearly_cost
+    carbon_emission = half_hour_cost['carbon_emission'].sum() / 1000 / lifespan[::-1]
+    return {
+        'yearly_cost_range': yearly_cost,
+        'yearly_carbon_emission': carbon_emission,
+    }
 
 
 def main():
@@ -63,10 +88,14 @@ def main():
 
     appliances = pd.read_csv('../appliances.csv', )
     appliance = appliances.iloc[int(args.appliance_id)]
-    yearly_cost_range = projected_yearly_cost_range(appliance, usage)
+    projected_yearly_cost = projected_yearly_cost_range(appliance, usage)
+    yearly_cost_range = projected_yearly_cost['yearly_cost_range']
+    yearly_carbon_emission_range = projected_yearly_cost['yearly_carbon_emission']
 
     print(appliance)
     print(f'Yearly cost range: {yearly_cost_range[0]:.2f}-{yearly_cost_range[1]:.2f}')
+    print(f'Yearly Carbon emission range (kg): {yearly_carbon_emission_range[0]:.2f}-'
+          f'{yearly_carbon_emission_range[1]:.2f}')
 
 
 if __name__ == '__main__':
