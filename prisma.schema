@@ -1,0 +1,29 @@
+// Define the model for customer current electricity tariff
+model customerCurrentElectricityTarriff {
+  id                              Int     @id @default(autoincrement())
+  timeOfUse                       Boolean
+  unitRate                        Float   
+  estimatedEnergyAnnualUsage      Int     
+  annualStandingCharge            Float   
+  estimatedEnergyAnnualEnergyCost Float   
+}
+
+// Define the model for customer current gas tariff
+model customerCurrentgasTarriff {
+  id                              Int     @id @default(autoincrement())
+  unitRate                        Float   
+  estimatedEnergyAnnualUsage      Int     
+  annualStandingCharge            Float   
+  estimatedEnergyAnnualEnergyCost Float   
+}
+
+// Define the model for potential tariff
+model potentialTarriff {
+  id                              Int     @id @default(autoincrement())
+  utility                         String  
+  timeOfUse                       Boolean
+  unitRate                        Float   
+  estimatedFutureEnergyAnnualUsage Int     
+  annualStandingCharge            Float   
+  estimatedEnergyAnnualEnergyCost Float   
+}
