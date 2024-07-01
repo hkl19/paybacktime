@@ -1,0 +1,80 @@
+'<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payback Time!</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+    <!-- Header -->
+    <header class="flex items-center justify-between p-6 bg-gray-800">
+        <div class="flex items-center">
+            <img src="tree-logo.png" alt="Panda's Kitchen Logo" class="h-10 w-10 object-cover rounded-full mr-3">
+            <h1 class="text-xl font-bold">Payback Calculator</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Appliances Section -->
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl font-bold mb-4">Appliances</h2>
+                <button id="uploadButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Upload CSV File</button>
+                <input type="file" id="fileInput" class="hidden" accept=".csv">
+            </div>
+
+            <!-- Budget Section -->
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl font-bold mb-4">Budget</h2>
+                <div class="flex justify-between items-center">
+                    <span>£0</span>
+                    <span>£<span id="maxBudget">25,000</span></span>
+                </div>
+                <input type="range" id="budgetSlider" min="0" max="25000" class="w-full mt-2">
+                <div class="mt-2">
+                    <span>Selected Budget: £<span id="budgetValue">0</span></span>
+                </div>
+            </div>
+
+            <!-- Connect Section -->
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h2 class="text-xl font-bold mb-4">Connect to Tariff</h2>
+                <button id="connectButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Connect Now</button>
+            </div>
+        </div>
+
+        <!-- Tabs
+        <div class="mt-6">
+            <ul class="flex border-b">
+                <li class="mr-1">
+                    <a class="bg-gray-800 inline-block py-2 px-4 text-purple-500 font-semibold" href="#">Refrigeration</a>
+                </li>
+                <li class="mr-1">
+                    <a class="bg-gray-800 inline-block py-2 px-4 text-white" href="#">Cooking</a>
+                </li>
+                <li class="mr-1">
+                    <a class="bg-gray-800 inline-block py-2 px-4 text-white" href="#">Heating</a>
+                </li>
+            </ul>
+        </div> -->
+
+        <!-- Cost Comparison Section -->
+        <div class="bg-gray-800 p-6 rounded-lg mt-6">
+            <h2 class="text-xl font-bold mb-4">Cost Comparison</h2>
+            <iframe src="cost-comparison.html" class="w-full h-64 bg-white rounded-lg"></iframe>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="bg-gray-800 p-6 rounded-lg mt-6">
+            <canvas id="myChart"></canvas>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+'
