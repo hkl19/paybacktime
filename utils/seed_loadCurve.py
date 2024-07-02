@@ -68,20 +68,20 @@ def generate_consumption_data(business_id, mpxn, start_date, end_date, appliance
 
     patterns = {
         'winter': {
-            'weekday': [(0, 4.5, 'high'), (5, 10.5, 'low'),(11, 13.5, 'high'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
-            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'high'), (22, 23.5, 'low')],
+            'weekday': [(0, 4.5, 'high'), (5, 10.5, 'low'),(11, 13.5, 'moderate'), (14, 16.5, 'low'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
+            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'moderate'), (22, 23.5, 'low')],
         },
         'spring': {
-            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'high'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
-            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'high'), (22, 23.5, 'low')],
+            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'moderate'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
+            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'moderate'), (22, 23.5, 'low')],
         },
         'summer': {
-            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'high'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
-            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'high'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
+            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'moderate'), (14, 16.5, 'low'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
+            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'moderate'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
         },
         'fall': {
-            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'high'), (14, 16.5, 'moderate'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
-            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'high'), (22, 23.5, 'low')],
+            'weekday': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 13.5, 'moderate'), (14, 16.5, 'low'), (17, 21.5, 'moderate'), (22, 23.5, 'low')],
+            'weekend': [(0, 4.5, 'high'),(5, 10.5, 'low'), (11, 21.5, 'moderate'), (22, 23.5, 'low')],
         },
     }
 
