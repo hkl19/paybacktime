@@ -11,7 +11,6 @@
             justify-content: left;
             margin-bottom: 20px;
         }
-
         .dropdown-container select {
             text-align: left;
             width: 200px;
@@ -25,35 +24,42 @@
             padding: 20px;
             border-radius: 8px;
         }
-        
         .iframe-container h2 {
             color: #FFFFFF;
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
         }
-
         .iframe-container iframe {
             width: 100%;
             height: 300px;
             border: none;
             border-radius: 8px;
         }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white font-sans">
-
-    <!-- Header -->
     <header class="flex items-center justify-between p-6 bg-gray-800">
         <div class="flex items-center">
             <img src="tree-logo.png" alt="Panda's Kitchen Logo" class="h-10 w-10 object-cover rounded-full mr-3">
             <h1 class="text-xl font-bold">Payback Calculator</h1>
         </div>
     </header>
-
     <div class="flex">
-        <!-- Sidebar -->
         <nav class="w-64 h-screen bg-gray-800 p-6">
             <ul>
                 <li class="mb-4">
@@ -64,18 +70,13 @@
                 </li>
             </ul>
         </nav>
-
-        <!-- Main Content -->
         <main class="flex-1 p-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Appliances Section -->
                 <div class="bg-gray-800 p-6 rounded-lg">
                     <h2 class="text-xl font-bold mb-4">Appliances</h2>
                     <button id="uploadButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Upload CSV File</button>
-                    <input type="file" id="fileInput" class="hidden" accept=".html">
+                    <input type="file" id="fileInput" class="hidden" accept=".png">
                 </div>
-
-                <!-- Budget Section -->
                 <div class="bg-gray-800 p-6 rounded-lg">
                     <h2 class="text-xl font-bold mb-4">Budget</h2>
                     <div class="flex justify-between items-center">
@@ -87,24 +88,21 @@
                         <span>Selected Budget: £<span id="budgetValue">0</span></span>
                     </div>
                 </div>
-
-                <!-- Connect Section -->
                 <div class="bg-gray-800 p-6 rounded-lg">
                     <h2 class="text-xl font-bold mb-4">Connect to Tariff</h2>
                     <button id="connectButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Connect Now</button>
                 </div>
             </div>
-
-            <!-- Calculate -->
             <div class="bg-gray-800 p-6 rounded-lg mt-6">
                 <h2 class="text-xl font-bold mb-4">Calculate Now</h2>
                 <button id="calculatenow" class="bg-purple-500 text-white py-2 px-10 rounded-lg">Press Me</button>
             </div>
-
-            <!-- CSV Data Section -->
+            <div id="spinner" class="hidden">
+                <div class="spinner"></div>
+                <p class="text-center">Calculating...</p>
+            </div>
             <div id="costComparison" class="bg-gray-800 p-6 rounded-lg mt-6 hidden">
                 <h2 class="text-xl font-bold mb-4">Cost Comparison</h2>
-                <!-- Dropdown Menu -->
                 <div class="dropdown-container ml-0">
                     <select id="iframeDropdown" class="text-white px-4 py-2 rounded-lg bg-purple-500">
                         <option value="tab1.html">Boiler</option>
@@ -115,26 +113,20 @@
                 </div>
                 <iframe src="boiler.html" class="w-full h-64 bg-white rounded-lg"></iframe>
             </div>
-
-            <!-- Cost Savings Section -->
             <div id="savingsBarplot" class="bg-gray-800 p-6 rounded-lg mt-6 hidden">
                 <h2 class="text-xl font-bold mb-4">Savings Barplot</h2>
                 <iframe src="plot.html" class="w-full h-64 bg-white rounded-lg"></iframe>
             </div>
-
-            <!-- Old Load Section -->
             <div id="loadCurveBefore" class="bg-gray-800 p-6 rounded-lg mt-6 hidden">
                 <h2 class="text-xl font-bold mb-4">Load Curve Before</h2>
                 <iframe src="load_curve_old.html" class="w-full h-80 bg-white rounded-lg"></iframe>
             </div>
-            <!-- New Load Section -->
             <div id="loadCurveAfter" class="bg-gray-800 p-6 rounded-lg mt-6 hidden">
                 <h2 class="text-xl font-bold mb-4">Load Curve After</h2>
                 <iframe src="load_curve_new.html" class="w-full h-80 bg-white rounded-lg"></iframe>
             </div>
         </main>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     <script>
@@ -146,33 +138,15 @@
             document.getElementById('budgetValue').innerText = value;
         });
         document.getElementById('calculatenow').addEventListener('click', function() {
-            document.getElementById('costComparison').classList.remove('hidden');
-            document.getElementById('savingsBarplot').classList.remove('hidden');
-            document.getElementById('loadCurveBefore').classList.remove('hidden');
-            document.getElementById('loadCurveAfter').classList.remove('hidden');
+            document.getElementById('spinner').classList.remove('hidden');
+            setTimeout(function() {
+                document.getElementById('spinner').classList.add('hidden');
+                document.getElementById('costComparison').classList.remove('hidden');
+                document.getElementById('savingsBarplot').classList.remove('hidden');
+                document.getElementById('loadCurveBefore').classList.remove('hidden');
+                document.getElementById('loadCurveAfter').classList.remove('hidden');
+            }, 3000);
         });
-        // // Function to set iframe src based on dropdown selection
-        // function setIframeSrc() {
-        //     const iframe = document.getElementById('myIframe');
-        //     const iframeContainer = document.getElementById('iframeContainer');
-        //     const tabTitle = document.getElementById('tabTitle');
-        //     const dropdown = document.getElementById('iframeDropdown');
-
-        //     const selectedOption = dropdown.options[dropdown.selectedIndex];
-        //     const src = selectedOption.value;
-        //     const title = selectedOption.textContent;
-
-        //     // Set iframe src and display iframe container
-        //     iframe.src = src;
-        //     iframeContainer.classList.remove('hidden');
-        //     tabTitle.textContent = title;
-        // }
-
-        // // Event listener for dropdown change
-        // document.getElementById('iframeDropdown').addEventListener('change', setIframeSrc);
-
-        // // Initial call to set iframe src based on default selected option
-        // setIframeSrc()
     </script>
 </body>
 </html>
