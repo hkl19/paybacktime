@@ -1,9 +1,46 @@
-'<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payback Time!</title>
+    <title>Payback</title>
+    <style>
+        /* Additional CSS styles for alignment */
+        .dropdown-container {
+            display: flex;
+            margin-left: 4;
+            justify-content: left; /* Align items to the left */
+            margin-bottom: 20px; /* Optional: Adjust margin as needed */
+        }
+
+        .dropdown-container select {
+            text-align: left; /* Align text to the left within the dropdown */
+            width: 200px; /* Adjust width as needed */
+            padding: 8px; /* Optional: Adjust padding for better appearance */
+            border-radius: 4px; /* Optional: Rounded corners */
+            background-color: #6B7280; /* Optional: Background color */
+            color: #FFFFFF; /* Optional: Text color */
+        }
+        .iframe-container {
+            background-color: #1F2937; /* Optional: Adjust background color for iframe container */
+            padding: 20px; /* Optional: Adjust padding for iframe container */
+            border-radius: 8px; /* Optional: Rounded corners for iframe container */
+        }
+        
+        .iframe-container h2 {
+            color: #FFFFFF; /* Optional: Text color for iframe title */
+            font-size: 20px; /* Optional: Font size for iframe title */
+            font-weight: bold; /* Optional: Font weight for iframe title */
+            margin-bottom: 10px; /* Optional: Adjust margin as needed */
+        }
+
+        .iframe-container iframe {
+            width: 100%; /* Optional: Adjust iframe width */
+            height: 300px; /* Optional: Adjust iframe height */
+            border: none; /* Optional: Remove border */
+            border-radius: 8px; /* Optional: Rounded corners for iframe */
+        }
+    </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white font-sans">
@@ -16,65 +53,123 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Appliances Section -->
-            <div class="bg-gray-800 p-6 rounded-lg">
-                <h2 class="text-xl font-bold mb-4">Appliances</h2>
-                <button id="uploadButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Upload CSV File</button>
-                <input type="file" id="fileInput" class="hidden" accept=".csv">
-            </div>
-
-            <!-- Budget Section -->
-            <div class="bg-gray-800 p-6 rounded-lg">
-                <h2 class="text-xl font-bold mb-4">Budget</h2>
-                <div class="flex justify-between items-center">
-                    <span>£0</span>
-                    <span>£<span id="maxBudget">25,000</span></span>
-                </div>
-                <input type="range" id="budgetSlider" min="0" max="25000" class="w-full mt-2">
-                <div class="mt-2">
-                    <span>Selected Budget: £<span id="budgetValue">0</span></span>
-                </div>
-            </div>
-
-            <!-- Connect Section -->
-            <div class="bg-gray-800 p-6 rounded-lg">
-                <h2 class="text-xl font-bold mb-4">Connect to Tariff</h2>
-                <button id="connectButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Connect Now</button>
-            </div>
-        </div>
-
-        <!-- Tabs
-        <div class="mt-6">
-            <ul class="flex border-b">
-                <li class="mr-1">
-                    <a class="bg-gray-800 inline-block py-2 px-4 text-purple-500 font-semibold" href="#">Refrigeration</a>
+    <div class="flex">
+        <!-- Sidebar -->
+        <nav class="w-64 h-screen bg-gray-800 p-6">
+            <ul>
+                <li class="mb-4">
+                    <a href="index.html" class="block py-2 px-4 text-white rounded hover:bg-gray-700">Home</a>
                 </li>
-                <li class="mr-1">
-                    <a class="bg-gray-800 inline-block py-2 px-4 text-white" href="#">Cooking</a>
-                </li>
-                <li class="mr-1">
-                    <a class="bg-gray-800 inline-block py-2 px-4 text-white" href="#">Heating</a>
+                <li>
+                    <a href="secondary_page.html" class="block py-2 px-4 text-white rounded hover:bg-gray-700">Secondary Page</a>
                 </li>
             </ul>
-        </div> -->
+        </nav>
 
-        <!-- Cost Comparison Section -->
-        <div class="bg-gray-800 p-6 rounded-lg mt-6">
-            <h2 class="text-xl font-bold mb-4">Cost Comparison</h2>
-            <iframe src="cost-comparison.html" class="w-full h-64 bg-white rounded-lg"></iframe>
-        </div>
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Appliances Section -->
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Appliances</h2>
+                    <button id="uploadButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Upload CSV File</button>
+                    <input type="file" id="fileInput" class="hidden" accept=".png">
+                </div>
 
-        <!-- Chart Section -->
-        <div class="bg-gray-800 p-6 rounded-lg mt-6">
-            <canvas id="myChart"></canvas>
-        </div>
-    </main>
+                <!-- Budget Section -->
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Budget</h2>
+                    <div class="flex justify-between items-center">
+                        <span>£0</span>
+                        <span>£<span id="maxBudget">25,000</span></span>
+                    </div>
+                    <input type="range" id="budgetSlider" min="0" max="25000" class="w-full mt-2">
+                    <div class="mt-2">
+                        <span>Selected Budget: £<span id="budgetValue">0</span></span>
+                    </div>
+                </div>
+
+                <!-- Connect Section -->
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Connect to Tariff</h2>
+                    <button id="connectButton" class="bg-purple-500 text-white py-2 px-4 rounded-lg">Connect Now</button>
+                </div>
+            </div>
+
+            <!-- Calculate -->
+            <div class="bg-gray-800 p-6 rounded-lg mt-6">
+                <h2 class="text-xl font-bold mb-4">Calculate Now</h2>
+                <button id="calculatenow" class="bg-purple-500 text-white py-2 px-10 rounded-lg">Press Me</button>
+            </div>
+
+            <!-- CSV Data Section -->
+            <div class="bg-gray-800 p-6 rounded-lg mt-6">
+                <h2 class="text-xl font-bold mb-4">Cost Comparison</h2>
+                <!-- Dropdown Menu -->
+                <div class="dropdown-container ml-0"> <!-- Adjust margin-left as needed -->
+                    <select id="iframeDropdown" class="text-white px-4 py-2 rounded-lg bg-purple-500">
+                        <option value="tab1.html">Boiler
+                        </option>
+                        <option value="tab2.html">Oven</option>
+                        <option value="tab3.html">Radiator</option>
+                        <option value="tab3.html">Freezer</option>
+                    </select>
+                </div>
+                <iframe src="boiler.html" class="w-full h-64 bg-white rounded-lg"></iframe>
+            </div>
+
+
+            <!-- Cost Savings Section -->
+            <div class="bg-gray-800 p-6 rounded-lg mt-6">
+                <h2 class="text-xl font-bold mb-4">Savings Barplot</h2>
+                <iframe src="plot.html" class="w-full h-64 bg-white rounded-lg"></iframe>
+            </div>
+
+            <!-- Old Load Section -->
+            <div class="bg-gray-800 p-6 rounded-lg mt-6">
+                <h2 class="text-xl font-bold mb-4">Load Curve Before</h2>
+                <iframe src="load_curve_old.html" class="w-full h-80 bg-white rounded-lg"></iframe>
+            </div>
+            <!-- New Load Section -->
+            <div class="bg-gray-800 p-6 rounded-lg mt-6">
+                <h2 class="text-xl font-bold mb-4">Load Curve After</h2>
+                <iframe src="load_curve_new.html" class="w-full h-80 bg-white rounded-lg"></iframe>
+            </div>
+        </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.getElementById('connectButton').addEventListener('click', function() {
+            window.location.href = 'secondary_page.html';
+        });
+        document.getElementById('budgetSlider').addEventListener('input', function(event) {
+            const value = event.target.value;
+            document.getElementById('budgetValue').innerText = value;
+        });
+        // // Function to set iframe src based on dropdown selection
+        // function setIframeSrc() {
+        //     const iframe = document.getElementById('myIframe');
+        //     const iframeContainer = document.getElementById('iframeContainer');
+        //     const tabTitle = document.getElementById('tabTitle');
+        //     const dropdown = document.getElementById('iframeDropdown');
+
+        //     const selectedOption = dropdown.options[dropdown.selectedIndex];
+        //     const src = selectedOption.value;
+        //     const title = selectedOption.textContent;
+
+        //     // Set iframe src and display iframe container
+        //     iframe.src = src;
+        //     iframeContainer.classList.remove('hidden');
+        //     tabTitle.textContent = title;
+        // }
+
+        // // Event listener for dropdown change
+        // document.getElementById('iframeDropdown').addEventListener('change', setIframeSrc);
+
+        // // Initial call to set iframe src based on default selected option
+        // setIframeSrc();
+    </script>
 </body>
 </html>
-'
